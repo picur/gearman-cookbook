@@ -20,6 +20,12 @@
 include_recipe 'apache2'
 include_recipe 'php'
 
+php_packages = %w{ gearman-job-server lobgearman2 libgearman-dev gearmans-tools }
+
+php_packages.each do |pkg|
+	package pkg
+end
+
 execute "install-php-gearman" do
 	command "pecl install channel://pecl.php.net/gearman-#{node['gearman']['php']['version']}"
 	action :run
@@ -29,4 +35,10 @@ end
 template "#{node['php']['ext_conf_dir']}/gearman.ini" do
 	source "gearman.ini.erb"
 	notifies :restart, "service[apache2]", :immediately
+end
+
+php_packages.each do |pkg|
+	package pkg do
+		action :remove
+	end
 end

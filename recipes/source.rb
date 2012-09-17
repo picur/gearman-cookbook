@@ -19,7 +19,7 @@
 
 packages = value_for_platform(
   %w{ debian ubuntu } => {
-    :default => %w{ llibboost-program-options-dev libevent-dev libtokyocabinet8 uuid-dev }
+    :default => %w{ libboost-program-options-dev libevent-dev libtokyocabinet8 uuid-dev }
   },
   %w{ centos redhat } => {
     :default => []

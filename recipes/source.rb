@@ -37,6 +37,7 @@ packages.each do |pkg|
 end
 
 bash "install_gearmand" do
+  cwd "/tmp"
   code <<-EOH
   tar xzf /tmp/gearmand-#{node['gearman']['source']['version']}.tar.gz
   cd /tmp/gearmand-#{node['gearman']['source']['version']}

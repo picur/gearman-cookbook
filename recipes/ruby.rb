@@ -1,8 +1,7 @@
 #
 # Cookbook Name:: gearman
-# Attributes:: default
+# Recipe:: ruby
 #
-# Copyright 2012, Cramer Development
 # Copyright 2012, Botond Dani
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +17,6 @@
 # limitations under the License.
 #
 
-default['gearman']['server']['user'] = 'gearman'
-default['gearman']['server']['group'] = 'gearman'
-default['gearman']['server']['port'] = 4730
-default['gearman']['server']['log_dir'] = '/var/log/gearmand'
-default['gearman']['server']['log_level'] = 'INFO'
-default['gearman']['server']['data_dir'] = '/var/lib/gearman'
 
+include_recipe 'default'
+gem_package 'gearman-ruby'

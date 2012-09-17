@@ -1,8 +1,7 @@
 #
 # Cookbook Name:: gearman
-# Recipe:: server
+# Recipe:: source
 #
-# Copyright 2011, Cramer Development
 # Copyright 2012, Botond Dani
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,38 +19,32 @@
 
 packages = value_for_platform(
   %w{ debian ubuntu } => {
-    :default => %w{ libboost-program-options1.40.0 libevent-1.4-2 libtokyocabinet8 }
+    :default => %w{ llibboost-program-options-dev libevent-dev libtokyocabinet8 uuid-dev }
   },
   %w{ centos redhat } => {
     :default => []
   }
 )
 
-file_to_install = value_for_platform(
-  %w{ debian ubuntu } => { :default => 'gearmand-0.29_x86_64.deb' },
-  %w{ centos redhat } => { :default => 'gearmand-0.24_x86_64.rpm' }
-)
-
-install_command = value_for_platform(
-  %w{ debian ubuntu } => { :default => 'dpkg -i' },
-  %w{ centos redhat } => { :default => 'rpm -Uvh' }
-)
-
-remote_file "#{Chef::Config[:file_cache_path]}/#{file_to_install}" do
-  source "https://github.com/cramerdev/packages/raw/master/#{file_to_install}"
-  action :create_if_missing
-end
-
-package 'libgearman-dev gearman-job-server' do
-  action :remove
+remote_file "#{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}.tar.gz" do |
+	source "#{node['gearman']['source']['remote_file']}"
+	action :create_if_missing
+	checksum "#{node['gearman']['source']['checksum']}"
 end
 
 packages.each do |pkg|
   package pkg
 end
 
-execute "#{install_command} #{Chef::Config[:file_cache_path]}/#{file_to_install}" do
-  creates '/usr/sbin/gearmand'
+bash "install_gearmand" do
+  code <<-EOH
+  tar xzf #{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}.tar.gz
+  cd #{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}
+  ./configure
+  make
+  make install
+  EOH
+  not_if "test -f /usr/local/sbin/gearmand"
 end
 
 user node['gearman']['server']['user'] do

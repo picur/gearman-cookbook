@@ -26,7 +26,7 @@ packages = value_for_platform(
   }
 )
 
-remote_file "#{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}.tar.gz" do |
+remote_file "#{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}.tar.gz" do
 	source "#{node['gearman']['source']['remote_file']}"
 	action :create_if_missing
 	checksum "#{node['gearman']['source']['checksum']}"

@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+include_recipe 'apache2'
 include_recipe 'php'
 
 execute "install-php-gearman" do
@@ -27,5 +28,5 @@ end
 
 template "#{node['php']['ext_conf_dir']}/gearman.ini" do
 	source "gearman.ini.erb"
-	notifies :restart, "service[apache]", :immediately
+	notifies :restart, "service[apache2]", :immediately
 end

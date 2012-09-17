@@ -20,7 +20,7 @@
 include_recipe 'apache2'
 include_recipe 'php'
 
-php_packages = %w{ gearman-job-server libgearman6 libgearman-dev gearmans-tools }
+php_packages = %w{ gearman-job-server libgearman6 libgearman-dev gearman-tools }
 
 php_packages.each do |pkg|
 	package pkg

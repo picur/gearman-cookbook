@@ -18,4 +18,3 @@
 #
 
 package 'libgearman-dev'
-gem_package 'gearman-ruby'

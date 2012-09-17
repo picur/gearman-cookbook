@@ -25,3 +25,8 @@ default['gearman']['server']['log_dir'] = '/var/log/gearmand'
 default['gearman']['server']['log_level'] = 'INFO'
 default['gearman']['server']['data_dir'] = '/var/lib/gearman'
 
+default['gearman']['source']['version'] = "1.1.0"
+default['gearman']['source']['remote_file'] = "https://launchpad.net/gearmand/1.2/#{node['gearman']['source']['version']}/+download/gearmand-#{node['gearman']['source']['version']}.tar.gz"
+default['gearman']['source']['checksum'] = "c2e04042181242a95dab47c88b96eef1"
+
+default['gearman']['php']['version'] = "1.0.3"

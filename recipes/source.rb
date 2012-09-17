@@ -26,7 +26,7 @@ packages = value_for_platform(
   }
 )
 
-remote_file "#{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}.tar.gz" do
+remote_file "/tmp/gearmand-#{node['gearman']['source']['version']}.tar.gz" do
 	source "#{node['gearman']['source']['remote_file']}"
 	action :create_if_missing
 	checksum "#{node['gearman']['source']['checksum']}"
@@ -38,8 +38,8 @@ end
 
 bash "install_gearmand" do
   code <<-EOH
-  tar xzf #{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}.tar.gz
-  cd #{Chef::Config[:file_cache_path]}/gearmand-#{node['gearman']['source']['version']}
+  tar xzf /tmp/gearmand-#{node['gearman']['source']['version']}.tar.gz
+  cd /tmp/gearmand-#{node['gearman']['source']['version']}
   ./configure
   make
   make install

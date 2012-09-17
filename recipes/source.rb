@@ -19,7 +19,7 @@
 
 packages = value_for_platform(
   %w{ debian ubuntu } => {
-    :default => %w{ libboost-program-options-dev libboost-thread-dev libevent-dev libtokyocabinet8 uuid-dev }
+    :default => %w{ libboost-program-options-dev libboost-thread-dev libevent-dev libtokyocabinet8 uuid-dev libcloog-ppl0 }
   },
   %w{ centos redhat } => {
     :default => []
@@ -37,6 +37,7 @@ packages.each do |pkg|
 end
 
 bash "install_gearmand" do
+  user "root"
   cwd "/tmp"
   code <<-EOH
   tar xzf /tmp/gearmand-#{node['gearman']['source']['version']}.tar.gz
